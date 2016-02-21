@@ -114,6 +114,20 @@ class ocf::apt ($desktop = false) {
     }
   }
 
+  if tagged('ocf_mesos::slave') or tagged('ocf_mesos::master') {
+    apt::key { 'mesosphere':
+      id     => '81026D0004C44CF7EF55ADF8DF7D54CBE56151BF',
+      server => 'keyserver.ubuntu.com',
+    }
+
+    apt::source { 'mesosphere':
+      location => 'http://repos.mesosphere.io/debian/',
+      release  => $::lsbdistcodename,
+      repos    => 'main',
+      require  => Apt::Key['mesosphere'],
+    }
+  }
+
   file { '/etc/cron.daily/ocf-apt':
     mode    => '0755',
     content => template('ocf/apt/ocf-apt.erb'),
