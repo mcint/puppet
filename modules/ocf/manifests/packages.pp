@@ -32,7 +32,7 @@ class ocf::packages {
 
       # purge virtualbox for security reasons (setuid binaries allow network control)
       # see debian bug#760569
-      'virtualbox',
+      # 'virtualbox',
     ]:
       ensure => purged;
   }
