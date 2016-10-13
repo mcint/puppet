@@ -20,20 +20,16 @@ define ocf_mesos::master::load_balancer::http_vhost(
   }
 
   if $ssl {
-    # TODO: SSL is untested
-    nginx::resource::vhost {
-      "${title}-https":
-        server_name => $server_name,
-        proxy       => "http://marathon_service_${service_port}",
+    nginx::resource::vhost { "${title}-https":
+      server_name => $server_name,
+      proxy       => "http://marathon_service_${service_port}",
 
-        ssl         => true,
-        ssl_cert    => $ssl_cert,
-        ssl_key     => $ssl_key,
-        ssl_dhparam => $ssl_dhparam,
+      ssl         => true,
+      ssl_cert    => $ssl_cert,
+      ssl_key     => $ssl_key,
+      ssl_dhparam => $ssl_dhparam,
 
-        listen_port => 443,
-
-        rewrite_to_https => true;
+      rewrite_to_https => true,
     }
   } else {
     nginx::resource::vhost { "${title}-http":
