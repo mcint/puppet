@@ -19,7 +19,7 @@ class ocf_mesos::master::load_balancer($marathon_http_password) {
 
   # keepalived config
   package { 'keepalived':; }
-  $keepalived_secret = 'hunter2'
+  $keepalived_secret = file('/opt/puppet/shares/private/mesos/keepalived-secret')
 
   # Virtual addresses are owned by all of the mesos masters.
   # At a given time, only one master will actually have the IP, but
@@ -45,16 +45,25 @@ class ocf_mesos::master::load_balancer($marathon_http_password) {
 
   # Service virtual host definitions
   ocf_mesos::master::load_balancer::http_vhost { 'fluffy':
-    server_name  => ['fluffy.ocf.berkeley.edu'],
+    server_name  => 'fluffy.ocf.berkeley.edu',
     service_port => 10000,
     ssl          => false,
   }
 
   ocf_mesos::master::load_balancer::http_vhost { 'rt':
-    server_name  => ['rt.ocf.berkeley.edu'],
-    service_port => 10001,
-    ssl          => true,
-    ssl_cert     => '/opt/share/secrets/rt/rt.crt',
-    ssl_key      => '/opt/share/secrets/rt/rt.key',
+    server_name    => 'rt.ocf.berkeley.edu',
+    server_aliases => ['rt'],
+    service_port   => 10001,
+    ssl            => true,
+    ssl_cert       => '/opt/share/secrets/rt/rt.crt',
+    ssl_key        => '/opt/share/secrets/rt/rt.key',
+  }
+
+  ocf_mesos::master::load_balancer::http_vhost { 'ocfweb-static':
+    server_name    => 'static.ocf.berkeley.edu',
+    service_port   => 10004,
+    ssl            => true,
+    ssl_cert       => '/opt/share/secrets/ocfweb/static.ocf.berkeley.edu.crt',
+    ssl_key        => '/opt/share/secrets/ocfweb/static.ocf.berkeley.edu.key',
   }
 }

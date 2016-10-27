@@ -22,7 +22,7 @@ class ocf_jenkins {
   augeas { '/etc/default/jenkins':
     context => '/files/etc/default/jenkins',
     changes => [
-      'set JAVA_ARGS \'"-Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dhudson.model.ParametersAction.safeParameters=ghprbActualCommit,ghprbActualCommitAuthor,ghprbActualCommitAuthorEmail,ghprbAuthorRepoGitUrl,ghprbCommentBody,ghprbCredentialsId,ghprbGhRepository,ghprbPullAuthorEmail,ghprbPullAuthorLogin,ghprbPullAuthorLoginMention,ghprbPullDescription,ghprbPullId,ghprbPullLink,ghprbPullLongDescription,ghprbPullTitle,ghprbSourceBranch,ghprbTargetBranch,ghprbTriggerAuthor,ghprbTriggerAuthorEmail,ghprbTriggerAuthorLogin,ghprbTriggerAuthorLoginMention,GIT_BRANCH,sha1 -Xmx1024m"\'',
+      'set JAVA_ARGS \'"-Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dhudson.model.ParametersAction.safeParameters=ghprbActualCommit,ghprbActualCommitAuthor,ghprbActualCommitAuthorEmail,ghprbAuthorRepoGitUrl,ghprbCommentBody,ghprbCredentialsId,ghprbGhRepository,ghprbPullAuthorEmail,ghprbPullAuthorLogin,ghprbPullAuthorLoginMention,ghprbPullDescription,ghprbPullId,ghprbPullLink,ghprbPullLongDescription,ghprbPullTitle,ghprbSourceBranch,ghprbTargetBranch,ghprbTriggerAuthor,ghprbTriggerAuthorEmail,ghprbTriggerAuthorLogin,ghprbTriggerAuthorLoginMention,GIT_BRANCH,sha1 -Djenkins.branch.WorkspaceLocatorImpl.PATH_MAX=0 -Xmx1024m"\'',
     ],
     require => Package['jenkins'],
     notify  => Service['jenkins'];
@@ -81,6 +81,12 @@ class ocf_jenkins {
 
     '/opt/jenkins/deploy/.pypirc':
       source => 'puppet:///private/pypirc',
+      owner  => root,
+      group  => jenkins-deploy,
+      mode   => '0640';
+
+    '/opt/jenkins/deploy/.ocf-marathon':
+      source => 'puppet:///private/ocf-marathon',
       owner  => root,
       group  => jenkins-deploy,
       mode   => '0640';
