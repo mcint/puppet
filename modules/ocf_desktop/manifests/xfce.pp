@@ -21,5 +21,9 @@ class ocf_desktop::xfce {
     '/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml':
       source  => 'puppet:///modules/ocf_desktop/xsession/xfce4/xfce4-panel-stretch.xml',
       require => File['/etc/xdg/xfce4/xfconf'];
+
+    '/etc/inputrc':
+      source  => 'puppet:///modules/ocf_desktop/inputrc',
+      require => File['/etc/inputrc'];
   }
 }
