@@ -2,7 +2,7 @@ class ocf_tv {
   include ocf_tv::pulse
 
   include ocf::packages::chrome
-  include ocf::packages::firefox
+  include ocf::packages::firefox_esr
   include ocf_desktop::drivers
   include ocf_desktop::steam
 

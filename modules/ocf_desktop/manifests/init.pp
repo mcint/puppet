@@ -2,7 +2,7 @@ class ocf_desktop {
   include ocf::acct
   include ocf::packages::chrome
   include ocf::packages::cups
-  include ocf::packages::firefox
+  include ocf::packages::firefox_esr
   include ocf::packages::pulse
 
   include ocf_mesos::slave
